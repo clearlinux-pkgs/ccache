@@ -4,7 +4,7 @@
 #
 Name     : ccache
 Version  : 3.2.5
-Release  : 15
+Release  : 16
 URL      : http://samba.org/ftp/ccache/ccache-3.2.5.tar.gz
 Source0  : http://samba.org/ftp/ccache/ccache-3.2.5.tar.gz
 Summary  : No detailed summary available
