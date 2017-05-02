@@ -6,7 +6,7 @@
 #
 Name     : ccache
 Version  : 3.3.4
-Release  : 24
+Release  : 25
 URL      : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz
 Source0  : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz
 Source99 : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz.asc
