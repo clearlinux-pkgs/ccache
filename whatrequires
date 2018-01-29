@@ -1,0 +1,5 @@
+# This file contains recursive sources that require this package
+compat-opencv-soname32
+compat-opencv-soname33
+opencv
+openjdk

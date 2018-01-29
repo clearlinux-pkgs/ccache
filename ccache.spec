@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.3.4
-Release  : 25
-URL      : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz
-Source0  : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz
-Source99 : http://samba.org/ftp/ccache/ccache-3.3.4.tar.gz.asc
+Version  : 3.3.6
+Release  : 26
+URL      : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz
+Source0  : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz
+Source99 : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
+License  : GPL-3.0 GPL-3.0+
 Requires: ccache-bin
 Requires: ccache-data
 Requires: ccache-doc
@@ -49,23 +49,26 @@ doc components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.3.4
+%setup -q -n ccache-3.3.6
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1490192968
+export SOURCE_DATE_EPOCH=1517184426
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1490192968
+export SOURCE_DATE_EPOCH=1517184426
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
