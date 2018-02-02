@@ -6,7 +6,7 @@
 #
 Name     : ccache
 Version  : 3.3.6
-Release  : 26
+Release  : 27
 URL      : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz
 Source0  : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz
 Source99 : http://samba.org/ftp/ccache/ccache-3.3.6.tar.xz.asc
