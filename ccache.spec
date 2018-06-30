@@ -6,7 +6,7 @@
 #
 Name     : ccache
 Version  : 3.4.2
-Release  : 31
+Release  : 32
 URL      : http://samba.org/ftp/ccache/ccache-3.4.2.tar.xz
 Source0  : http://samba.org/ftp/ccache/ccache-3.4.2.tar.xz
 Source99 : http://samba.org/ftp/ccache/ccache-3.4.2.tar.xz.asc
@@ -15,8 +15,10 @@ Group    : Development/Tools
 License  : GPL-3.0 GPL-3.0+
 Requires: ccache-bin
 Requires: ccache-data
-Requires: ccache-doc
+Requires: ccache-license
+Requires: ccache-man
 BuildRequires : zlib-dev
+Patch1: nonfatal.patch
 
 %description
 ccache â a fast compiler cache
@@ -27,6 +29,8 @@ ccache â a fast compiler cache
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data
+Requires: ccache-license
+Requires: ccache-man
 
 %description bin
 bin components for the ccache package.
@@ -40,23 +44,32 @@ Group: Data
 data components for the ccache package.
 
 
-%package doc
-Summary: doc components for the ccache package.
-Group: Documentation
+%package license
+Summary: license components for the ccache package.
+Group: Default
 
-%description doc
-doc components for the ccache package.
+%description license
+license components for the ccache package.
+
+
+%package man
+Summary: man components for the ccache package.
+Group: Default
+
+%description man
+man components for the ccache package.
 
 
 %prep
 %setup -q -n ccache-3.4.2
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1522107090
+export SOURCE_DATE_EPOCH=1530365630
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -68,8 +81,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1522107090
+export SOURCE_DATE_EPOCH=1530365630
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/ccache
+cp LICENSE.adoc %{buildroot}/usr/share/doc/ccache/LICENSE.adoc
 %make_install
 ## make_install_append content
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
@@ -107,6 +122,10 @@ EOF
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
 
-%files doc
+%files license
 %defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
+/usr/share/doc/ccache/LICENSE.adoc
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man1/ccache.1
