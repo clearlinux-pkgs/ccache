@@ -3,4 +3,3 @@ compat-opencv-soname32
 compat-opencv-soname33
 opencv
 openjdk
-openjdk9
