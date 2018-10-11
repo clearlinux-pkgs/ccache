@@ -6,16 +6,17 @@
 #
 Name     : ccache
 Version  : 3.4.3
-Release  : 33
+Release  : 34
 URL      : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz
 Source0  : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz
 Source99 : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
-Requires: ccache-bin
-Requires: ccache-data
-Requires: ccache-man
+License  : BSD-3-Clause CNRI-Python-GPL-Compatible GPL-2.0 GPL-3.0 GPL-3.0+ HPND Python-2.0 Zlib
+Requires: ccache-bin = %{version}-%{release}
+Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
+Requires: ccache-man = %{version}-%{release}
 BuildRequires : zlib-dev
 Patch1: nonfatal.patch
 
@@ -27,8 +28,9 @@ ccache â a fast compiler cache
 %package bin
 Summary: bin components for the ccache package.
 Group: Binaries
-Requires: ccache-data
-Requires: ccache-man
+Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
+Requires: ccache-man = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -40,6 +42,14 @@ Group: Data
 
 %description data
 data components for the ccache package.
+
+
+%package license
+Summary: license components for the ccache package.
+Group: Default
+
+%description license
+license components for the ccache package.
 
 
 %package man
@@ -59,7 +69,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535908405
+export SOURCE_DATE_EPOCH=1539229583
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -71,11 +81,15 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1535908405
+export SOURCE_DATE_EPOCH=1539229583
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/ccache
+cp LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/LICENSE.adoc
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
+ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang
+ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang++
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/gcc
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/g++
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/cc
@@ -96,6 +110,8 @@ EOF
 %defattr(-,root,root,-)
 /usr/lib64/ccache/bin/c++
 /usr/lib64/ccache/bin/cc
+/usr/lib64/ccache/bin/clang
+/usr/lib64/ccache/bin/clang++
 /usr/lib64/ccache/bin/cpp
 /usr/lib64/ccache/bin/g++
 /usr/lib64/ccache/bin/gcc
@@ -110,6 +126,10 @@ EOF
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
 
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/ccache/LICENSE.adoc
+
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/ccache.1

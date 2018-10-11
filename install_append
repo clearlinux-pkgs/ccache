@@ -1,4 +1,6 @@
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
+ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang
+ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang++
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/gcc
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/g++
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/cc
