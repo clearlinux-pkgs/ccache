@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.4.3
-Release  : 35
-URL      : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz
-Source0  : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz
-Source99 : http://samba.org/ftp/ccache/ccache-3.4.3.tar.xz.asc
+Version  : 3.5
+Release  : 36
+URL      : http://samba.org/ftp/ccache/ccache-3.5.tar.xz
+Source0  : http://samba.org/ftp/ccache/ccache-3.5.tar.xz
+Source99 : http://samba.org/ftp/ccache/ccache-3.5.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause CNRI-Python-GPL-Compatible GPL-2.0 GPL-3.0 GPL-3.0+ HPND Python-2.0 Zlib
@@ -24,6 +24,8 @@ Patch1: nonfatal.patch
 ccache â a fast compiler cache
 ==============================
 [![Build Status](https://travis-ci.org/ccache/ccache.svg?branch=master)](https://travis-ci.org/ccache/ccache)
+[![Code Quality: Cpp](https://img.shields.io/lgtm/grade/cpp/g/ccache/ccache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ccache/ccache/context:cpp)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/ccache/ccache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ccache/ccache/alerts)
 
 %package bin
 Summary: bin components for the ccache package.
@@ -61,7 +63,7 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.4.3
+%setup -q -n ccache-3.5
 %patch1 -p1
 
 %build
@@ -69,7 +71,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1539229583
+export SOURCE_DATE_EPOCH=1539650166
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -81,7 +83,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1539229583
+export SOURCE_DATE_EPOCH=1539650166
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
 cp LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/LICENSE.adoc
