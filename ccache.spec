@@ -5,27 +5,20 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.5.1
-Release  : 37
-URL      : http://samba.org/ftp/ccache/ccache-3.5.1.tar.xz
-Source0  : http://samba.org/ftp/ccache/ccache-3.5.1.tar.xz
-Source99 : http://samba.org/ftp/ccache/ccache-3.5.1.tar.xz.asc
+Version  : 3.6
+Release  : 38
+URL      : http://samba.org/ftp/ccache/ccache-3.6.tar.xz
+Source0  : http://samba.org/ftp/ccache/ccache-3.6.tar.xz
+Source99 : http://samba.org/ftp/ccache/ccache-3.6.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
+License  : GPL-3.0 GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 Requires: ccache-man = %{version}-%{release}
-BuildRequires : automake
-BuildRequires : automake-dev
-BuildRequires : gettext-bin
-BuildRequires : libtool
-BuildRequires : libtool-dev
-BuildRequires : m4
-BuildRequires : pkg-config-dev
 BuildRequires : zlib-dev
 Patch1: nonfatal.patch
-Patch2: get_opt_compile.patch
 
 %description
 ccache â a fast compiler cache
@@ -38,6 +31,7 @@ ccache â a fast compiler cache
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 Requires: ccache-man = %{version}-%{release}
 
 %description bin
@@ -52,6 +46,14 @@ Group: Data
 data components for the ccache package.
 
 
+%package license
+Summary: license components for the ccache package.
+Group: Default
+
+%description license
+license components for the ccache package.
+
+
 %package man
 Summary: man components for the ccache package.
 Group: Default
@@ -61,17 +63,16 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.5.1
+%setup -q -n ccache-3.6
 %patch1 -p1
-%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1546522444
-%reconfigure --disable-static
+export SOURCE_DATE_EPOCH=1547533216
+%configure --disable-static
 make  %{?_smp_mflags}
 
 %check
@@ -82,8 +83,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1546522444
+export SOURCE_DATE_EPOCH=1547533216
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/ccache
+cp LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/LICENSE.adoc
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
@@ -124,6 +127,10 @@ EOF
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/ccache/LICENSE.adoc
 
 %files man
 %defattr(0644,root,root,0755)
