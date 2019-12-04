@@ -8,13 +8,3 @@ ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/c++
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/cpp
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-gcc
 ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-c++
-
-mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
-cat > %{buildroot}/usr/share/defaults/etc/profile.d/ccache.sh << "EOF"
-# Use ccache by default. Users who don't want that can set the CCACHE_DISABLE
-# environment variable in their personal profile.
-case ":${PATH:-}:" in
-    *:/usr/lib64/ccache/bin:*) ;;
-    *) PATH="/usr/lib64/ccache/bin${PATH:+:$PATH}" ;;
-esac
-EOF
