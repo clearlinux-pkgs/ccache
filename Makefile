@@ -1,5 +1,5 @@
 PKG_NAME := ccache
-URL = http://samba.org/ftp/ccache/ccache-3.6.tar.xz
+URL = https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common

@@ -5,18 +5,17 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.6
-Release  : 39
-URL      : http://samba.org/ftp/ccache/ccache-3.6.tar.xz
-Source0  : http://samba.org/ftp/ccache/ccache-3.6.tar.xz
-Source1  : http://samba.org/ftp/ccache/ccache-3.6.tar.xz.asc
+Version  : 3.7.7
+Release  : 40
+URL      : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz
+Source0  : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz
+Source1  : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz.asc
 Source2  : ccache.sh
-Summary  : No detailed summary available
+Summary  : Compiler cache that speeds up recompilation by caching previous compilations
 Group    : Development/Tools
-License  : GPL-3.0 GPL-3.0+
+License  : GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 Requires: ccache-man = %{version}-%{release}
 BuildRequires : zlib-dev
 Patch1: nonfatal.patch
@@ -32,7 +31,6 @@ ccache – a fast compiler cache
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -46,14 +44,6 @@ Group: Data
 data components for the ccache package.
 
 
-%package license
-Summary: license components for the ccache package.
-Group: Default
-
-%description license
-license components for the ccache package.
-
-
 %package man
 Summary: man components for the ccache package.
 Group: Default
@@ -63,8 +53,8 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.6
-cd %{_builddir}/ccache-3.6
+%setup -q -n ccache-3.7.7
+cd %{_builddir}/ccache-3.7.7
 %patch1 -p1
 
 %build
@@ -72,7 +62,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1575418838
+export SOURCE_DATE_EPOCH=1581556060
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -89,10 +80,8 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1575418838
+export SOURCE_DATE_EPOCH=1581556060
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-3.6/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/3717e280d3e58045e18bb8a95a29aec7fc222cba
 %make_install
 mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
 install  %{_sourcedir}/ccache.sh %{buildroot}/usr/share/defaults/etc/profile.d/
@@ -128,10 +117,6 @@ ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-c++
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccache/3717e280d3e58045e18bb8a95a29aec7fc222cba
 
 %files man
 %defattr(0644,root,root,0755)
