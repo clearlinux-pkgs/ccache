@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.7.7
-Release  : 40
-URL      : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz
-Source0  : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz
-Source1  : https://github.com/ccache/ccache/releases/download/v3.7.7/ccache-3.7.7.tar.gz.asc
+Version  : 3.7.8
+Release  : 41
+URL      : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz.asc
 Source2  : ccache.sh
 Summary  : Compiler cache that speeds up recompilation by caching previous compilations
 Group    : Development/Tools
@@ -53,8 +53,8 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.7.7
-cd %{_builddir}/ccache-3.7.7
+%setup -q -n ccache-3.7.8
+cd %{_builddir}/ccache-3.7.8
 %patch1 -p1
 
 %build
@@ -62,7 +62,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1581556060
+export SOURCE_DATE_EPOCH=1584458798
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
@@ -80,7 +80,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1581556060
+export SOURCE_DATE_EPOCH=1584458798
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
