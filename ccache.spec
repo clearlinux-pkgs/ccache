@@ -5,17 +5,18 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.7.8
-Release  : 41
-URL      : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v3.7.8/ccache-3.7.8.tar.xz.asc
+Version  : 3.7.9
+Release  : 42
+URL      : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz.asc
 Source2  : ccache.sh
-Summary  : Compiler cache that speeds up recompilation by caching previous compilations
+Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
+License  : GPL-3.0+ MIT
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 Requires: ccache-man = %{version}-%{release}
 BuildRequires : zlib-dev
 Patch1: nonfatal.patch
@@ -31,6 +32,7 @@ ccache – a fast compiler cache
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -44,6 +46,14 @@ Group: Data
 data components for the ccache package.
 
 
+%package license
+Summary: license components for the ccache package.
+Group: Default
+
+%description license
+license components for the ccache package.
+
+
 %package man
 Summary: man components for the ccache package.
 Group: Default
@@ -53,8 +63,8 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.7.8
-cd %{_builddir}/ccache-3.7.8
+%setup -q -n ccache-3.7.9
+cd %{_builddir}/ccache-3.7.9
 %patch1 -p1
 
 %build
@@ -62,8 +72,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1584458798
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1585616155
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -80,8 +89,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1584458798
+export SOURCE_DATE_EPOCH=1585616155
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/ccache
+cp %{_builddir}/ccache-3.7.9/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
 %make_install
 mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
 install  %{_sourcedir}/ccache.sh %{buildroot}/usr/share/defaults/etc/profile.d/
@@ -117,6 +128,10 @@ ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-c++
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
 
 %files man
 %defattr(0644,root,root,0755)
