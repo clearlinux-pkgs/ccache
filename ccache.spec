@@ -6,7 +6,7 @@
 #
 Name     : ccache
 Version  : 3.7.9
-Release  : 42
+Release  : 43
 URL      : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
 Source0  : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz
 Source1  : https://github.com/ccache/ccache/releases/download/v3.7.9/ccache-3.7.9.tar.xz.asc
@@ -72,11 +72,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1585616155
+export SOURCE_DATE_EPOCH=1587080130
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
@@ -89,7 +89,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1585616155
+export SOURCE_DATE_EPOCH=1587080130
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
 cp %{_builddir}/ccache-3.7.9/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
@@ -98,15 +98,11 @@ mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
 install  %{_sourcedir}/ccache.sh %{buildroot}/usr/share/defaults/etc/profile.d/
 ## install_append content
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/clang++
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/gcc
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/g++
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/cc
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/c++
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/cpp
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-gcc
-ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-c++
+for f in cc c++ cpp \
+{x86_64-generic-linux-,}{gcc,g++}{,-8,-9} \
+{clang,clang++}{,-8,-9,-10}; do
+ln -s ../../../bin/ccache %{buildroot}/usr/lib64/ccache/bin/$f
+done
 ## install_append end
 
 %files
@@ -115,11 +111,25 @@ ln -s /usr/bin/ccache %{buildroot}/usr/lib64/ccache/bin/x86_64-generic-linux-c++
 /usr/lib64/ccache/bin/cc
 /usr/lib64/ccache/bin/clang
 /usr/lib64/ccache/bin/clang++
+/usr/lib64/ccache/bin/clang++-10
+/usr/lib64/ccache/bin/clang++-8
+/usr/lib64/ccache/bin/clang++-9
+/usr/lib64/ccache/bin/clang-10
+/usr/lib64/ccache/bin/clang-8
+/usr/lib64/ccache/bin/clang-9
 /usr/lib64/ccache/bin/cpp
 /usr/lib64/ccache/bin/g++
+/usr/lib64/ccache/bin/g++-8
+/usr/lib64/ccache/bin/g++-9
 /usr/lib64/ccache/bin/gcc
-/usr/lib64/ccache/bin/x86_64-generic-linux-c++
+/usr/lib64/ccache/bin/gcc-8
+/usr/lib64/ccache/bin/gcc-9
+/usr/lib64/ccache/bin/x86_64-generic-linux-g++
+/usr/lib64/ccache/bin/x86_64-generic-linux-g++-8
+/usr/lib64/ccache/bin/x86_64-generic-linux-g++-9
 /usr/lib64/ccache/bin/x86_64-generic-linux-gcc
+/usr/lib64/ccache/bin/x86_64-generic-linux-gcc-8
+/usr/lib64/ccache/bin/x86_64-generic-linux-gcc-9
 
 %files bin
 %defattr(-,root,root,-)
