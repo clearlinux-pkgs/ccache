@@ -1,5 +1,5 @@
 # This file contains recursive sources that require this package
-compat-opencv-soname41
+compat-opencv-soname42
 opencv
 openjdk
 openjdk11

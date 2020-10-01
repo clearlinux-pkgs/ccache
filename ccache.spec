@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.7.11
-Release  : 45
-URL      : https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v3.7.11/ccache-3.7.11.tar.xz.asc
+Version  : 3.7.12
+Release  : 46
+URL      : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -63,8 +63,8 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.7.11
-cd %{_builddir}/ccache-3.7.11
+%setup -q -n ccache-3.7.12
+cd %{_builddir}/ccache-3.7.12
 %patch1 -p1
 
 %build
@@ -72,7 +72,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1595375006
+export SOURCE_DATE_EPOCH=1601565952
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -89,10 +89,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make TEST_VERBOSE=1 test || :
 
 %install
-export SOURCE_DATE_EPOCH=1595375006
+export SOURCE_DATE_EPOCH=1601565952
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-3.7.11/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
+cp %{_builddir}/ccache-3.7.12/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
 %make_install
 mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
 install  %{_sourcedir}/ccache.sh %{buildroot}/usr/share/defaults/etc/profile.d/
