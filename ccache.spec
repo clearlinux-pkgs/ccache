@@ -5,28 +5,29 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 3.7.12
-Release  : 46
-URL      : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v3.7.12/ccache-3.7.12.tar.xz.asc
+Version  : 4.1
+Release  : 47
+URL      : https://github.com/ccache/ccache/releases/download/v4.1/ccache-4.1.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.1/ccache-4.1.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.1/ccache-4.1.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+ MIT
+License  : Apache-2.0 GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
 Requires: ccache-license = %{version}-%{release}
 Requires: ccache-man = %{version}-%{release}
+BuildRequires : asciidoc
+BuildRequires : buildreq-cmake
+BuildRequires : git
+BuildRequires : glibc-dev
 BuildRequires : zlib-dev
-Patch1: nonfatal.patch
+BuildRequires : zstd-dev
 
 %description
-ccache – a fast compiler cache
-==============================
-[![Build Status](https://travis-ci.org/ccache/ccache.svg?branch=master)](https://travis-ci.org/ccache/ccache)
-[![Code Quality: Cpp](https://img.shields.io/lgtm/grade/cpp/g/ccache/ccache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ccache/ccache/context:cpp)
-[![Total Alerts](https://img.shields.io/lgtm/alerts/g/ccache/ccache.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ccache/ccache/alerts)
+This directory contains Dockerfiles for building and testing ccache in
+different build environments.
 
 %package bin
 Summary: bin components for the ccache package.
@@ -63,37 +64,41 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-3.7.12
-cd %{_builddir}/ccache-3.7.12
-%patch1 -p1
+%setup -q -n ccache-4.1
+cd %{_builddir}/ccache-4.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1601565952
+export SOURCE_DATE_EPOCH=1606111280
+mkdir -p clr-build
+pushd clr-build
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%configure --disable-static
+%cmake ..
 make  %{?_smp_mflags}
+popd
 
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make TEST_VERBOSE=1 test || :
+cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1601565952
+export SOURCE_DATE_EPOCH=1606111280
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-3.7.12/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
+cp %{_builddir}/ccache-4.1/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/899f64b72d6b31e4e5a12ca23b2c34c1d566a9c6
+pushd clr-build
 %make_install
+popd
 mkdir -p %{buildroot}/usr/share/defaults/etc/profile.d
 install  %{_sourcedir}/ccache.sh %{buildroot}/usr/share/defaults/etc/profile.d/
 ## install_append content
@@ -141,7 +146,7 @@ done
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccache/687dc02bd6d110c3f35c56949d4fd99d95e4d220
+/usr/share/package-licenses/ccache/899f64b72d6b31e4e5a12ca23b2c34c1d566a9c6
 
 %files man
 %defattr(0644,root,root,0755)
