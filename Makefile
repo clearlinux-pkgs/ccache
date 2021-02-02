@@ -1,5 +1,5 @@
 PKG_NAME := ccache
-URL = https://github.com/ccache/ccache/releases/download/v4.1/ccache-4.1.tar.xz
+URL = https://github.com/ccache/ccache/releases/download/v4.2/ccache-4.2.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
