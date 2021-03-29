@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.2
-Release  : 48
-URL      : https://github.com/ccache/ccache/releases/download/v4.2/ccache-4.2.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.2/ccache-4.2.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.2/ccache-4.2.tar.xz.asc
+Version  : 4.2.1
+Release  : 49
+URL      : https://github.com/ccache/ccache/releases/download/v4.2.1/ccache-4.2.1.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.2.1/ccache-4.2.1.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.2.1/ccache-4.2.1.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -54,15 +54,15 @@ man components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-4.2
-cd %{_builddir}/ccache-4.2
+%setup -q -n ccache-4.2.1
+cd %{_builddir}/ccache-4.2.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1612286053
+export SOURCE_DATE_EPOCH=1617025829
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -82,7 +82,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1612286053
+export SOURCE_DATE_EPOCH=1617025829
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
