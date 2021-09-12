@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.4
-Release  : 51
-URL      : https://github.com/ccache/ccache/releases/download/v4.4/ccache-4.4.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.4/ccache-4.4.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.4/ccache-4.4.tar.xz.asc
+Version  : 4.4.1
+Release  : 52
+URL      : https://github.com/ccache/ccache/releases/download/v4.4.1/ccache-4.4.1.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.4.1/ccache-4.4.1.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.4.1/ccache-4.4.1.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -56,15 +56,15 @@ license components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-4.4
-cd %{_builddir}/ccache-4.4
+%setup -q -n ccache-4.4.1
+cd %{_builddir}/ccache-4.4.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1629406511
+export SOURCE_DATE_EPOCH=1631474779
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -84,10 +84,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1629406511
+export SOURCE_DATE_EPOCH=1631474779
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-4.4/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/daeaa132731378d0072c4d078e288781ba0ed140
+cp %{_builddir}/ccache-4.4.1/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/d91086ff3d62dd2d9d15dc688151116e40c67e52
 pushd clr-build
 %make_install
 popd
@@ -138,4 +138,4 @@ done
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccache/daeaa132731378d0072c4d078e288781ba0ed140
+/usr/share/package-licenses/ccache/d91086ff3d62dd2d9d15dc688151116e40c67e52
