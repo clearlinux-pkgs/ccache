@@ -6,7 +6,7 @@
 #
 Name     : ccache
 Version  : 4.4.2
-Release  : 53
+Release  : 54
 URL      : https://github.com/ccache/ccache/releases/download/v4.4.2/ccache-4.4.2.tar.xz
 Source0  : https://github.com/ccache/ccache/releases/download/v4.4.2/ccache-4.4.2.tar.xz
 Source1  : https://github.com/ccache/ccache/releases/download/v4.4.2/ccache-4.4.2.tar.xz.asc
@@ -21,7 +21,6 @@ BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : glibc-dev
 BuildRequires : pkg-config
-BuildRequires : pkgconfig(hiredis)
 BuildRequires : zlib-dev
 BuildRequires : zstd-dev
 
@@ -64,7 +63,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1632923987
+export SOURCE_DATE_EPOCH=1633398390
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -72,7 +71,7 @@ export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%cmake ..
+%cmake .. -DREDIS_STORAGE_BACKEND=OFF
 make  %{?_smp_mflags}
 popd
 
@@ -84,7 +83,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1632923987
+export SOURCE_DATE_EPOCH=1633398390
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
 cp %{_builddir}/ccache-4.4.2/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/d91086ff3d62dd2d9d15dc688151116e40c67e52
