@@ -5,18 +5,17 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.5.1
-Release  : 56
-URL      : https://github.com/ccache/ccache/releases/download/v4.5.1/ccache-4.5.1.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.5.1/ccache-4.5.1.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.5.1/ccache-4.5.1.tar.xz.asc
+Version  : 4.6
+Release  : 57
+URL      : https://github.com/ccache/ccache/releases/download/v4.6/ccache-4.6.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.6/ccache-4.6.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.6/ccache-4.6.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : Apache-2.0 GPL-3.0+
+License  : GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : glibc-dev
@@ -32,7 +31,6 @@ different build environments.
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -46,24 +44,16 @@ Group: Data
 data components for the ccache package.
 
 
-%package license
-Summary: license components for the ccache package.
-Group: Default
-
-%description license
-license components for the ccache package.
-
-
 %prep
-%setup -q -n ccache-4.5.1
-cd %{_builddir}/ccache-4.5.1
+%setup -q -n ccache-4.6
+cd %{_builddir}/ccache-4.6
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1637194927
+export SOURCE_DATE_EPOCH=1646062076
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -83,10 +73,8 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1637194927
+export SOURCE_DATE_EPOCH=1646062076
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-4.5.1/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/8a94a4f783700ab93243231e69de2a20ec114843
 pushd clr-build
 %make_install
 popd
@@ -134,7 +122,3 @@ done
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccache/8a94a4f783700ab93243231e69de2a20ec114843
