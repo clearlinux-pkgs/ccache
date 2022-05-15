@@ -1,5 +1,4 @@
 # This file contains recursive sources that require this package
 opencv
-openjdk
 openjdk11
 openjdk13
