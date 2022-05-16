@@ -6,20 +6,20 @@
 #
 Name     : ccache
 Version  : 4.6.1
-Release  : 58
+Release  : 59
 URL      : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz
 Source0  : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz
 Source1  : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
+License  : Apache-2.0 GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : glibc-dev
-BuildRequires : hiredis-c-data
 BuildRequires : pkg-config
 BuildRequires : zlib-dev
 BuildRequires : zstd-dev
@@ -32,6 +32,7 @@ different build environments.
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -45,6 +46,14 @@ Group: Data
 data components for the ccache package.
 
 
+%package license
+Summary: license components for the ccache package.
+Group: Default
+
+%description license
+license components for the ccache package.
+
+
 %prep
 %setup -q -n ccache-4.6.1
 cd %{_builddir}/ccache-4.6.1
@@ -54,7 +63,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1652648999
+export SOURCE_DATE_EPOCH=1652659290
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -74,8 +83,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1652648999
+export SOURCE_DATE_EPOCH=1652659290
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/ccache
+cp %{_builddir}/ccache-4.6.1/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/036b7470815bccd6a67a17baa09a7c9d71a9abec
 pushd clr-build
 %make_install
 popd
@@ -123,3 +134,7 @@ done
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/ccache/036b7470815bccd6a67a17baa09a7c9d71a9abec
