@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.6.1
-Release  : 59
-URL      : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz.asc
+Version  : 4.6.2
+Release  : 60
+URL      : https://github.com/ccache/ccache/releases/download/v4.6.2/ccache-4.6.2.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.6.2/ccache-4.6.2.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.6.2/ccache-4.6.2.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -55,15 +55,15 @@ license components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-4.6.1
-cd %{_builddir}/ccache-4.6.1
+%setup -q -n ccache-4.6.2
+cd %{_builddir}/ccache-4.6.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1652659290
+export SOURCE_DATE_EPOCH=1661208784
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -83,10 +83,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1652659290
+export SOURCE_DATE_EPOCH=1661208784
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-4.6.1/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/036b7470815bccd6a67a17baa09a7c9d71a9abec
+cp %{_builddir}/ccache-%{version}/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/036b7470815bccd6a67a17baa09a7c9d71a9abec
 pushd clr-build
 %make_install
 popd
