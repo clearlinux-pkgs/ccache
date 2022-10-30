@@ -5,17 +5,18 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.7.1
-Release  : 63
-URL      : https://github.com/ccache/ccache/releases/download/v4.7.1/ccache-4.7.1.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.7.1/ccache-4.7.1.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.7.1/ccache-4.7.1.tar.xz.asc
+Version  : 4.7.2
+Release  : 64
+URL      : https://github.com/ccache/ccache/releases/download/v4.7.2/ccache-4.7.2.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.7.2/ccache-4.7.2.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.7.2/ccache-4.7.2.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-3.0+
+License  : Apache-2.0 GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : glibc-dev
@@ -31,6 +32,7 @@ different build environments.
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
+Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -44,23 +46,34 @@ Group: Data
 data components for the ccache package.
 
 
+%package license
+Summary: license components for the ccache package.
+Group: Default
+
+%description license
+license components for the ccache package.
+
+
 %prep
-%setup -q -n ccache-4.7.1
-cd %{_builddir}/ccache-4.7.1
+%setup -q -n ccache-4.7.2
+cd %{_builddir}/ccache-4.7.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1666622315
+export SOURCE_DATE_EPOCH=1667094056
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$FFLAGS -fno-lto "
-export FFLAGS="$FFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 %cmake .. -DREDIS_STORAGE_BACKEND=OFF
 make  %{?_smp_mflags}
 popd
@@ -73,8 +86,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 cd clr-build; make test || :
 
 %install
-export SOURCE_DATE_EPOCH=1666622315
+export SOURCE_DATE_EPOCH=1667094056
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/ccache
+cp %{_builddir}/ccache-%{version}/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/31ea8277c88da880aa0eaff052e0dd536ffa9214
 pushd clr-build
 %make_install
 popd
@@ -122,3 +137,7 @@ done
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/ccache/31ea8277c88da880aa0eaff052e0dd536ffa9214
