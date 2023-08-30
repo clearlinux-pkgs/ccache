@@ -6,11 +6,11 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.8.2
-Release  : 70
-URL      : https://github.com/ccache/ccache/releases/download/v4.8.2/ccache-4.8.2.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.8.2/ccache-4.8.2.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.8.2/ccache-4.8.2.tar.xz.asc
+Version  : 4.8.3
+Release  : 71
+URL      : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -49,15 +49,15 @@ data components for the ccache package.
 
 
 %prep
-%setup -q -n ccache-4.8.2
-cd %{_builddir}/ccache-4.8.2
+%setup -q -n ccache-4.8.3
+cd %{_builddir}/ccache-4.8.3
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1686666294
+export SOURCE_DATE_EPOCH=1693406809
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -99,7 +99,7 @@ cd ../clr-build-avx2;
 make test || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1686666294
+export SOURCE_DATE_EPOCH=1693406809
 rm -rf %{buildroot}
 pushd clr-build-avx2
 %make_install_v3  || :
