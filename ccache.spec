@@ -8,18 +8,17 @@
 # Source0 file verified with key 0x996DDA075594ADB8 (joel@debian.org)
 #
 Name     : ccache
-Version  : 4.8.3
-Release  : 72
-URL      : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz
-Source0  : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz
-Source1  : https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3.tar.xz.asc
+Version  : 4.9
+Release  : 73
+URL      : https://github.com/ccache/ccache/releases/download/v4.9/ccache-4.9.tar.xz
+Source0  : https://github.com/ccache/ccache/releases/download/v4.9/ccache-4.9.tar.xz
+Source1  : https://github.com/ccache/ccache/releases/download/v4.9/ccache-4.9.tar.xz.asc
 Source2  : ccache.sh
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : Apache-2.0 GPL-3.0+
+License  : GPL-3.0+
 Requires: ccache-bin = %{version}-%{release}
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : glibc-dev
@@ -38,7 +37,6 @@ different build environments.
 Summary: bin components for the ccache package.
 Group: Binaries
 Requires: ccache-data = %{version}-%{release}
-Requires: ccache-license = %{version}-%{release}
 
 %description bin
 bin components for the ccache package.
@@ -52,24 +50,16 @@ Group: Data
 data components for the ccache package.
 
 
-%package license
-Summary: license components for the ccache package.
-Group: Default
-
-%description license
-license components for the ccache package.
-
-
 %prep
-%setup -q -n ccache-4.8.3
-cd %{_builddir}/ccache-4.8.3
+%setup -q -n ccache-4.9
+cd %{_builddir}/ccache-4.9
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1701941831
+export SOURCE_DATE_EPOCH=1704136010
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -137,10 +127,8 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1701941831
+export SOURCE_DATE_EPOCH=1704136010
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/ccache
-cp %{_builddir}/ccache-%{version}/LICENSE.adoc %{buildroot}/usr/share/package-licenses/ccache/b19c6fb44aaf876d82ba7bd5aa18fcfc139048e2 || :
 pushd clr-build-avx2
 %make_install_v3  || :
 popd
@@ -193,7 +181,3 @@ done
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/etc/profile.d/ccache.sh
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccache/b19c6fb44aaf876d82ba7bd5aa18fcfc139048e2
