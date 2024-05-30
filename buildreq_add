@@ -2,3 +2,6 @@
 # picked up automatically. One name per line, no whitespace.
 zlib-dev
 zstd-dev
+fmt-dev
+fmt
+xxHash-dev
