@@ -9,7 +9,7 @@
 #
 Name     : ccache
 Version  : 4.10.1
-Release  : 77
+Release  : 78
 URL      : https://github.com/ccache/ccache/releases/download/v4.10.1/ccache-4.10.1.tar.gz
 Source0  : https://github.com/ccache/ccache/releases/download/v4.10.1/ccache-4.10.1.tar.gz
 Source1  : https://github.com/ccache/ccache/releases/download/v4.10.1/ccache-4.10.1.tar.gz.asc
