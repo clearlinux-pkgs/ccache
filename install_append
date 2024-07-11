@@ -1,7 +1,7 @@
 #!rpm
 mkdir -p %{buildroot}/usr/lib64/ccache/bin
-for f in cc c++ cpp \
-            {x86_64-generic-linux-,}{gcc,g++}{,-8,-9} \
+for f in cpp \
+            {x86_64-generic-linux-,}{gcc,g++}{-8,-9} \
             {clang,clang++}{,-8,-9,-10}; do
     ln -s ../../../bin/ccache %{buildroot}/usr/lib64/ccache/bin/$f
 done
